@@ -46,7 +46,9 @@ function App() {
     }
     return null
   }
-
+  const checkEndGame = (newBoard) => {
+    return newBoard.every((Square) => Square !== null)
+  }
   const resetGame = () => {
     setBoard(Array(9).fill(null))
     setTurn(turns.x)
@@ -67,7 +69,10 @@ function App() {
     const newWinner = checkWinner(newBoard)
     if (newWinner) {
       setWinner(newWinner)
+    } else if (checkEndGame(newBoard)) {
+      setWinner(false)
     }
+    
   }
   return (
     <main className='board'>
@@ -75,14 +80,14 @@ function App() {
       <button onClick={resetGame}>Reset del Juego</button>
       <section className='game'>
         {
-          board.map((_, index) => {
+          board.map((square, index) => {
             return (
               <Square
                 key={index}
                 index={index}
                 updateBoard={updateBoard}
               > 
-              {board[index]}
+              {square}
               </Square>
             )
           })
